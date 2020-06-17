@@ -1,96 +1,82 @@
 <?php
-//1. Sumuoja kintamuosius
-function sum($skaicius1, $skaicius2)
-{
-    print $skaicius1 + $skaicius2;
-}
-sum(2, 8);
-print '<br><br>';
-
-//2. Funkcija is galo prideda stringa
-//I budas
-function plus_string($kintamasis1, $kintamasis2)
-{
-    print $kintamasis1 .= $kintamasis2 . ' ';
-}
-plus_string('Labas, ', 'Giedriau!');
-print '<br><br>    ';
-
-//II budas
-function plus_stringx($string1, $string2)
-{
-    print $string1 . ' ' . $string2;
-}
-$kintamasis1 = 'Labas';
-$kintamasis2 = 'Sveiki';
-plus_stringx('Labas', 'Sveiki');
-print '<br><br>    ';
-
-//3. Funkcija parasius varda, ismeta sakini
-function welcome_name($name)
-{
-    print 'Sveiki atvykę,' . ' ' . $name;
-}
-welcome_name('Dariau!');
-print '<br><br>';
-
-//4. Sukurti registracijos forma su POSt metodu, sukurti funkcija kuri paimtu $_POST masyva ir is
-// jo grazintu string pavidalo rezultata 'Jus prisijungete, Dainius Dainiauskas'
-
-$users = [
-    [
-        'id' => 1,
-        'user_name' => 'Jonas',
-        'user_surname' => 'Jonaitis',
-        'user_age' => 18,
-        'phone' => 'Apple'
+//1. Sukurkite formos masyva ir panaudojus funkcijas atsvaizduokite ekrane;
+$form = [
+    'inputs' => [
+        'user_name' => [
+            'type' => 'text',
+            'placeholder' => 'User name:',
+            'name' => 'user_name',
+        ],
+        'user_email' => [
+            'type' => 'email',
+            'placeholder' => 'User email:',
+            'name' => 'user_email',
+        ],
+        'user_password' => [
+            'type' => 'password',
+            'placeholder' => 'User password:',
+            'name' => 'user_password',
+        ],
+        'user_age' => [
+            'type' => 'number',
+            'placeholder' => 'User age:',
+            'name' => 'user_age',
+        ],
     ],
-    [
-        'id' => 2,
-        'user_name' => 'Petras',
-        'user_surname' => 'Petraitis',
-        'user_age' => 20,
-        'phone' => 'Nokia',
+    'buttons' => [
+        'send' => [
+            'type' => 'submit',
+            'value' => 'Siusti',
+            'name' => 'send'
+        ],
+        'delete' => [
+            'type' => 'submit',
+            'value' => 'Istrinti',
+            'name' => 'delete'
+        ]
     ],
 ];
-
 var_dump($_POST);
-////1 variantas
-function get_data($array)
+//Inputu funkcija
+function get_inputs($array, $input_name1, $input_name2 = false, $input_name3 = false)
 {
-    print 'Jus prisijungete, ' . $array['user_name'] . ' ' . $array['user_surname'];
+    $inputs = '';
+    foreach ($array['inputs'] as $input) {
+        if ($input['name'] == $input_name1) {
+            $inputs .= '<input type="' . $input['type'] . '" placeholder="' . $input['placeholder'] . '" name="' . $input['name'] . '" >';
+        } elseif ($input['name'] == $input_name2) {
+            $inputs .= '<input type="' . $input['type'] . '" placeholder="' . $input['placeholder'] . '" name="' . $input['name'] . '" >';
+        } elseif ($input['name'] == $input_name3) {
+            $inputs .= '<input type="' . $input['type'] . '" placeholder="' . $input['placeholder'] . '" name="' . $input['name'] . '" >';
+        }
+    }
+    return $inputs;
 }
-get_data($_POST);
-print '<br><br>';
-
-//2 variantas-sukurkite dar du kintamuosius STRING kurie
-////nurodytu kokius KEY reikes paimti is masyvo
-function get($array, $key1, $key2)
+//Buttonu funkcija
+function get_buttons($array, $button_name1, $button_name2 = false, $button_name3 = false)
 {
-    print 'Jus prisijungete, ' . $array[$key1] . ' ' . $array[$key2];
+    $buttons = '';
+    foreach ($array['buttons'] as $button) {
+        if ($button['name'] == $button_name1) {
+            $buttons .= '<input type="' . $button['type'] . '" value="' . $button['value'] . '" name="' . $button['name'] . '" >';
+        } elseif ($button['name'] == $button_name2) {
+            $buttons .= '<input type="' . $button['type'] . '" value="' . $button['value'] . '" name="' . $button['name'] . '" >';
+        } elseif ($button['name'] == $button_name3) {
+            $buttons .= '<input type="' . $button['type'] . '" value="' . $button['value'] . '" name="' . $button['name'] . '" >';
+        }
+    }
+    return $buttons;
 }
-get($_POST, 'user_name', 'user_surname');
-print '<br><br>';
+//Formos funkcija
+function get_form($inputs, $buttons)
+{
+    print '<form method="post">' . $inputs . $buttons . '</form>';
+}
 
-
+$inputs = get_inputs($form, 'user_name', 'user_email');
+$buttons = get_buttons($form, 'delete', 'send');
+get_form($inputs, $buttons);
 
 ?>
 
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-<form action="" method="post">
-    <input type="text" placeholder="User name:" name="user_name">
-    <input type="text" placeholder="User surname:" name="user_surname">
-    <input type="submit" value="Submit">
-</form>
 
-</body>
-</html>
